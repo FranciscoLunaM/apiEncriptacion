@@ -1,4 +1,7 @@
-from fastapi import FastAPI,HTTPException,status
+import logging
+from fastapi import FastAPI,HTTPException, Request,status
+from fastapi.exceptions import RequestValidationError
+from fastapi.responses import JSONResponse
 from models.datos import Datos,DatosEncriptados
 from cryptography.fernet import Fernet
 from fastapi.encoders import jsonable_encoder
@@ -30,8 +33,8 @@ app=FastAPI()
 @app.post("/encriptador/encriptar",response_model=DatosEncriptados)
 async def encriptarData(datos: Datos):
     try:
-        key=keygen
-        encriptador=Fernet(key)
+        key:str=keygen
+        encriptador:str=Fernet(key)
         dataEncriptada=encriptador.encrypt(str(jsonable_encoder(datos)).encode())
         response=DatosEncriptados(**{"datos_encriptados":dataEncriptada.decode()})
 
@@ -56,5 +59,7 @@ async def desencriptarData(data:DatosEncriptados):
     except Exception as e:
         print(str(e))
         raise HTTPException(status_code=status.HTTP_417_EXPECTATION_FAILED,detail=str(e))
+    
+    
     
 #uvicorn main:app --host 0.0.0.0 --port 9001  <-- asi se levanta el sistema
