@@ -1,0 +1,12 @@
+version: '3'
+services:
+  servicioEncriptacion:
+    build: .
+      dockerfile: Dockerfile
+    command: sh -c "uvicorn main:app --host 0.0.0.0 --port 9001"
+    ports: - 9001: 9001
+    image: api-Encriptacion:v1.0
+    environment:
+      TZ: "America/Mexico_City"
+    restart: always
+    network_mode: host
