@@ -2,6 +2,9 @@
 venv/
 .venv/
 *.venv
-api/__pycache__
+__pycache__
 /venv
 /.venv
+.env
+__pycache__/
+api/__pycache__
