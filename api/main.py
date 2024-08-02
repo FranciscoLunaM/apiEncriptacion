@@ -9,6 +9,7 @@ import json
 from dotenv import load_dotenv
 import os
 import consul
+import socket
 
 load_dotenv()
 keygen=os.getenv("KEY")
@@ -17,14 +18,18 @@ consul_port=os.getenv("CONSUL_PORT")
 ip=os.getenv("SERVER_IP")
 port=os.getenv("PORT")
 
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+s.connect(("8.8.8.8", 80))
+ip_address =s.getsockname()[0]
+
 #consul
-"""
+
 c=consul.Consul(host=consul_ip,port=consul_port)
 c.agent.service.register('servicio-encriptacion',
                         service_id='servicio-encriptacion',
-                        port=port,
-                        address=ip,
-                        tags=['servicio-encriptacion'])"""
+                        port=int(port),
+                        address=ip_address,
+                        tags=['servicio-encriptacion'])
 
 #endConsul
 

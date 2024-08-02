@@ -1,5 +1,6 @@
 FROM python:3.12.4-slim
-WORKDIR /apiEncriptacion
-COPY . /apiEncriptacion
+WORKDIR .
+COPY ./api ./
+COPY requirements.txt ./
 
-RUN pip install -r requirements.txt
+RUN pip3 install -r requirements.txt
